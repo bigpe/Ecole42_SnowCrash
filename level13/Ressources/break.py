@@ -18,7 +18,8 @@ print_output(output)
 print_title('Out UID - 2013, expected 4242, try to debug and break?')
 
 dev_null = open(os.devnull, 'w')
-connect_command = f'sshpass -p {get_previous_password()} ssh {get_current_level()}@{VM_ADDRESS} -p {VM_PORT}'
+connect_command = f'sshpass -p {get_previous_password()} ssh {get_current_level()}@{VM_ADDRESS} -p {VM_PORT} ' \
+                  f'-oStrictHostKeyChecking=no'
 
 command = f"{connect_command} gdb -q ./{file}"
 stream = subprocess.Popen(command.split(" "), stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=dev_null)

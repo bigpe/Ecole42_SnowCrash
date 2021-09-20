@@ -9,12 +9,16 @@ from .text import print_title, print_action, print_output
 
 
 def connect(user: str, password: str):
-    command = f'sshpass -p {password} ssh {user}@{VM_ADDRESS} -p {VM_PORT}'
+    command = f'sshpass -p {password} ssh {user}@{VM_ADDRESS} -p {VM_PORT} -oStrictHostKeyChecking=no'
     print_title(f'Connect to {user}')
     print_action(command)
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    client.connect(hostname=VM_ADDRESS, username=user, password=password, port=VM_PORT)
+    try:
+        client.connect(hostname=VM_ADDRESS, username=user, password=password, port=VM_PORT)
+    except OSError:
+        print('Host is down, connection impossible')
+        exit()
     return client
 
 
@@ -79,7 +83,8 @@ def save_token(token):
 
 
 def download_from(file_name: str):
-    command = f'sshpass -p {get_previous_password()} scp -P {VM_PORT} {get_current_level()}@{VM_ADDRESS}:~/{file_name} .'
+    command = f'sshpass -p {get_previous_password()} scp -o StrictHostKeyChecking=no -o ' \
+              f'UserKnownHostsFile=/dev/null -P {VM_PORT} {get_current_level()}@{VM_ADDRESS}:~/{file_name} .'
     print_title(f'Download file {file_name}')
     print_action(command)
     subprocess.call(command.split(' '), stderr=open(os.devnull, 'w'))

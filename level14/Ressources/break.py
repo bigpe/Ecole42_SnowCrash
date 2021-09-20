@@ -36,7 +36,8 @@ print_output(output, 'Interested thing')
 print_title("Ptrace detect if we debug program, oh no...")
 
 dev_null = open(os.devnull, 'w')
-connect_command = f'sshpass -p {get_previous_password()} ssh {get_current_level()}@{VM_ADDRESS} -p {VM_PORT}'
+connect_command = f'sshpass -p {get_previous_password()} ssh {get_current_level()}@{VM_ADDRESS} -p {VM_PORT} ' \
+                  f'-oStrictHostKeyChecking=no'
 
 print_magic('Disassemble time!')
 command = f"{connect_command} gdb -q getflag"
@@ -56,7 +57,7 @@ print_output(token, 'Token')
 print_title('We break everything, oh my gash, amazing!')
 
 print_title('Check it works')
-command = f"sshpass -p {token} ssh flag14@{VM_ADDRESS} -p {VM_PORT}"
+command = f"sshpass -p {token} ssh flag14@{VM_ADDRESS} -p {VM_PORT} -oStrictHostKeyChecking=no"
 print_action(command)
 stream = subprocess.Popen(command.split(" "), stdin=dev_null, stderr=dev_null)
 print_output('Congratulation. Type getflag to get the key and send it to me the owner of this livecd :)', 'Ouptup')

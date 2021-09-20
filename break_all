@@ -1,0 +1,8 @@
+#!/bin/bash
+
+i=0
+for f in `find $(pwd) -name "Ressources" | sort`; do
+    printf "\nLevel - $i\n\n"
+    cd $f && python3 break.py
+    i=$((i+1))
+done

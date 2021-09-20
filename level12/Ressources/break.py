@@ -30,6 +30,9 @@ token_raw = exec(client, "cat /tmp/token", title='Check results')[0]
 print_output(token_raw)
 print_title("It's too easy, no magic, sorry")
 
+exec(client, 'rm -f /tmp/token', title='Remove tmp file')
+exec(client, 'rm -f /tmp/TRICKY_THING', title='Remove tmp file')
+
 token = sanitize_token(token_raw)
 save_token(token)
 

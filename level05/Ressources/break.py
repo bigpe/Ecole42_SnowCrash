@@ -10,7 +10,8 @@ from utils.ssh import sanitize_token, connect_by_previous, exec, save_token, VM_
 from utils.text import print_title, print_output, print_magic
 
 client = connect_by_previous()
-command = f'sshpass -p {get_previous_password()} ssh {get_current_level()}@{VM_ADDRESS} -p {VM_PORT}'
+command = f'sshpass -p {get_previous_password()} ssh {get_current_level()}@{VM_ADDRESS} -p {VM_PORT} ' \
+          f'-oStrictHostKeyChecking=no'
 dev_null = open(os.devnull, 'w')
 stdout = subprocess.Popen(command.split(' '), stdin=dev_null, stderr=dev_null, stdout=subprocess.PIPE)\
     .stdout.readline().decode('utf-8')
@@ -43,6 +44,9 @@ time.sleep(130)
 
 token_raw = exec(client, 'cat /tmp/token', title='Read new file')[0]
 print_output(token_raw)
+
+exec(client, 'rm -f /tmp/token', title='Remove tmp file')
+exec(client, 'rm -f /opt/openarenaserver/tricky_thing', title='Remove tmp file')
 
 token = sanitize_token(token_raw)
 save_token(token)

