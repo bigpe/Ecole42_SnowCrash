@@ -35,5 +35,6 @@ for i, c in enumerate(file_content_bytes):
 flag_password = ''.join(res)
 print_output(flag_password, 'Flag password')
 
-client.close()
 get_token(flag_password)
+
+client.close()

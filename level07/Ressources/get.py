@@ -21,6 +21,7 @@ print_title('Binary display LOGNAME env by echo')
 token_raw = exec(client, 'LOGNAME=$\(getflag\) && ./level07', title='Execute binary with new LOGNAME')[0]
 print_output(token_raw)
 
-client.close()
 token = sanitize_token(token_raw)
 save_token(token)
+
+client.close()

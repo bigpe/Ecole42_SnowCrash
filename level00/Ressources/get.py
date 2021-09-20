@@ -28,5 +28,6 @@ for i in range(26):
         flag_password = res.strip()
     print_output(f'{res} {"<- Its our flag00 password (I hope)" if i == 11 else ""}', f'ROT {i}')
 
-client.close()
 get_token(flag_password)
+
+client.close()

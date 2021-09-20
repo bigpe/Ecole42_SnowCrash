@@ -40,5 +40,6 @@ for c in encoded_password:
 flag_password = ''.join([chr(c) for c in res])
 print_output(flag_password, 'Flag password (So clean)')
 
-client.close()
 get_token(flag_password)
+
+client.close()

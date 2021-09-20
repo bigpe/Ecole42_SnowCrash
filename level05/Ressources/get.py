@@ -44,6 +44,7 @@ time.sleep(130)
 token_raw = exec(client, 'cat /tmp/token', title='Read new file')[0]
 print_output(token_raw)
 
-client.close()
 token = sanitize_token(token_raw)
 save_token(token)
+
+client.close()

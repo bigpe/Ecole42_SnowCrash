@@ -24,5 +24,6 @@ print_output(flag_password, 'Flag password')
 print_title('Delete tmp passwd file')
 os.unlink('passwd')
 
-client.close()
 get_token(flag_password)
+
+client.close()
