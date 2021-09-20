@@ -13,6 +13,7 @@ Break process is automated, at first obtain dependencies
 You need CLI:
 - Wireshark
 - JohnTheRipper
+- Sshpass
 
 For MacOS (Install deps from brew and python deps by pip3):
 
