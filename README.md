@@ -1,4 +1,4 @@
-##SnowCrash
+## SnowCrash
 
 Find exploits in OS
 
@@ -6,7 +6,7 @@ Find exploits in OS
 
 [More information about project in subject file.](https://cdn.intra.42.fr/pdf/pdf/19578/en.subject.pdf)
 
-###Prepare
+### Prepare
 
 Break process is automated, at first obtain dependencies
 
@@ -30,7 +30,7 @@ Python deps standalone:
 pip3 install -r requirements.txt
 ```
 
-###Usage
+### Usage
 
 - Edit utils/config.py and specify VM host and port
 
