@@ -2,9 +2,9 @@
 
 Find exploits in OS
 
-[Download image](https://projects.intra.42.fr/uploads/document/document/2944/SnowCrash.iso) (Ubuntu Linux)
+[Download image](hhttps://cdn.intra.42.fr/isos/SnowCrash.iso) (Ubuntu Linux)
 
-[More information about project in subject file.](https://cdn.intra.42.fr/pdf/pdf/19578/en.subject.pdf)
+[More information about project in subject file.](https://cdn.intra.42.fr/pdf/pdf/67453/en.subject.pdf)
 
 ### Prepare
 
